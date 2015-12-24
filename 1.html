@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+            <meta name="description" content="">
+            <meta name="author" content="">
+            <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+            <title>Jumbotron Template for Bootstrap</title>
+            <!-- Bootstrap core CSS -->
+            <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+            <!-- Custom styles for this template -->
+            <link href="jumbotron.css" rel="stylesheet">
+            <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+            <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+            <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!--[if lt IE 9]-->
+             <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+             <!--[endif]-->
+            <style>
+                input , textarea { width:80%; margin:10; padding:10; }
+                a { color:blue; text-decoration:underline;}
+                body {
+                    padding-top: 60px;
+                    padding-bottom: 20px;
+                }
+            </style>
+    </head>
+    <body>
+        <div>
+            <div><input id="title" type="text" value="標題"/></div>
+            <br/>
+            <div><textarea id="text" style="height:300px">內文</textarea></div>
+            <button onclick="save()">儲存</button>
+            <div>
+                <table id="list">
+                </table>
+            </div>
+            <script>
+                var oTitle = document.getElementById("title");
+                var oText  = document.getElementById("text");
+                var oList = document.getElementById("list");
+
+                function save() {
+                    var title = oTitle.value;
+                    var text  = oText.value;
+                    window.localStorage.setItem("notepad:"+title, text);
+                    showList();
+                }
+
+                function showList() {
+                    var rowHtml = "";
+                    for (var title in window.localStorage) {
+                        if (title.startsWith("notepad:")) {
+                            rowHtml += "<tr><td><a onclick=\"loadDoc('"+title+"')\">"+title.substring(8)+"</a></td></tr>"
+                        }
+                    }
+                    oList.innerHTML = rowHtml;
+                }
+
+                function loadDoc(title) {
+                    oTitle.value = title.substring(8);
+                    oText.value  = window.localStorage.getItem(title);
+                }
+            </script>
+        </div>
+    </body>
+</html>
